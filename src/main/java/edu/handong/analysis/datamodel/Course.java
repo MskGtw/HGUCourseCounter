@@ -13,14 +13,7 @@ public class Course {
 	private int semesterCourseTaken;
 
 	public Course(String line){
-/*
-		ArrayList<String> data = new ArrayList<String>();
-		String[] s = line.trim().split(",");
-		for(int i = 0;i<data.size();i++) {
-			String lines = s[i];
-			data.add(lines);
-		}
-*/			
+	
 		studentId = line.split(",")[0].trim();
 		yearMonthGraduated = line.split(",")[1].trim();
 		firstMajor = line.split(",")[2].trim();
