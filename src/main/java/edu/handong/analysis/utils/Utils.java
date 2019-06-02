@@ -2,34 +2,32 @@ package edu.handong.analysis.utils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Utils {
 	
 	public static ArrayList<String> getLines(String file, boolean removeHeader){
 		
 		ArrayList<String> lines1 = new ArrayList<String>();
-		File file1 = new File("hw5data.csv");
+		
+		Scanner inputStream = null;
 		try {
 			
-			BufferedReader in = new BufferedReader(new FileReader(file1));
-
+			inputStream = new Scanner(new File(file));
 			
-			for(int i = 0 ; i < 100 ; i++){
-				lines1.add(in.readLine());
-				if(removeHeader == true)
+			while (inputStream.hasNextLine ()) {
+				String line = inputStream.nextLine();
+				if(removeHeader) {
 					removeHeader = false;
-				else {
-				if(lines1.get(i) == null)
-					break;
-				
-				System.out.println("read : " + i + " " + lines1.get(i));
-				lines1.add(in.readLine());
-				
+					continue;
 				}
+				else
+					lines1.add(line);
 			}
-			in.close();
-		}catch(Exception e) {
-			e.printStackTrace();
+			
+			inputStream.close();
+		}catch(FileNotFoundException e) {
+			System.out.println("The file path does not exist. Please check your CLI argument!");
 		}
 	
 		return lines1;
@@ -37,26 +35,19 @@ public class Utils {
 	}
 	public static void writeAFile(ArrayList<String> lines, String targetFileName) {
 		
-		File file2 = new File(targetFileName);
+		PrintWriter outputStream = null;
 		
 		try {
-			PrintWriter out = new PrintWriter(new FileWriter(file2,true));
-			ArrayList<String> write = new ArrayList<String>();
-			
-			for(int i = 1 ; i < write.size() ; i++){
-				write.add(lines.get(i));
-				if(write.get(i) == null)
-					break;
-				System.out.println("read: " + write.get(i));
-				out.println(write.get(i));
-				write.add(lines.get(i));
-				
+			outputStream = new PrintWriter(targetFileName);
+			outputStream.println("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester");
+			for(String line:lines){
+				outputStream.println(line);
 			}
-			out.close();
-		}catch(Exception e) {
-			e.printStackTrace();
+		}catch(FileNotFoundException e) {
+			System.out.println("The file path does not exist. Please check your CLI argument!");
+			System.exit(0);
 		}
 		
+	outputStream.close();
 	}
-	
 }

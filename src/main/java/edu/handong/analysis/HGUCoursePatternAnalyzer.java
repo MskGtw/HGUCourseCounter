@@ -31,13 +31,11 @@ public class HGUCoursePatternAnalyzer {
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
+		
 
 		String dataPath = args[0]; // csv file to be analyzed
 		String resultPath = args[1]; // the file path where the results are saved.
 		ArrayList<String> lines = Utils.getLines(dataPath, true);
-
-		for(int i =0;i<100;i++)
-			System.out.println(lines.get(i));
 
 		students = loadStudentCourseRecords(lines);
 
@@ -62,7 +60,24 @@ public class HGUCoursePatternAnalyzer {
 		
 		// TODO: Implement this method
 		
-		return null; // do not forget to return a proper variable.
+		HashMap<String,Student> studentInfo = new HashMap<String,Student>();
+		Student student = null;
+		
+		for(String line : lines) {
+			
+			String info = line.split(",")[0].trim();
+			
+			if(studentInfo.containsKey(info) == false) {
+				student = new Student(info);
+				studentInfo.put(info, student);
+			}
+			else {
+			Course course = new Course(line);
+			student.addCourse(course);
+			}
+		}
+		
+		return studentInfo;
 	}
 
 	 /**
@@ -82,8 +97,19 @@ public class HGUCoursePatternAnalyzer {
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
 		// TODO: Implement this method
+
+		ArrayList<String> sortingStudent = new ArrayList<String>();
+		sortingStudent.add("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInThisSemester");
 		
-		return null; // do not forget to return a proper variable.
+		for(Student student : sortedStudents.values()) {
+			Map<String, Integer> sortedSemesters = new TreeMap<String,Integer>(student.getSemestersByYearAndSemester());
+			for(Integer i : sortedSemesters.values()) {
+				sortingStudent.add(student.getStudentId()+","+sortedSemesters.values().size()+","+i+","+student.getNumCourseInNthSemester(i));
+			}
+		}
+		
+		
+		return sortingStudent; // do not forget to return a proper variable.
 	}
 
 }
