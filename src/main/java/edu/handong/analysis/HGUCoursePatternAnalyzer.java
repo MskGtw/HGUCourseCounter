@@ -9,6 +9,7 @@ import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
 import edu.handong.analysis.utils.NotEnoughArgumentException;
 import edu.handong.analysis.utils.Utils;
+import org.apache.commons.*;
 
 public class HGUCoursePatternAnalyzer {
 
